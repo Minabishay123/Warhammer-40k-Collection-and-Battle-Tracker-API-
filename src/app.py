@@ -5,10 +5,11 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from .config import Config
-from .routes.users import users_bp
-from .routes.miniatures import miniatures_bp
-from .routes.battles import battles_bp
+from blueprints.users_bp import users_bp
+from blueprints.miniatures_bp import miniatures_bp
+from blueprints.battles_bp import battles_bp
 from .middlewares.error_handler import handle_errors
+from os import environ
 
 def create_app():
     app = Flask(__name__)
