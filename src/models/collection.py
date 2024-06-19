@@ -1,14 +1,12 @@
-from extensions import db
-from sqlalchemy.orm import validates
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+from ..extensions import db
 
-class collection(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    description = db.Column(db.String(200), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    
-    @validates('name')
-    def validate_name(self, key, name):
-        if not name:
-            raise ValueError('Name must not be empty')
-        return name
+class Collection(db.Model):
+    __tablename__ = 'collections'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(80), nullable=False)
+    description = Column(String(200))
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    battles = relationship('Battle', backref='collection', lazy=True)

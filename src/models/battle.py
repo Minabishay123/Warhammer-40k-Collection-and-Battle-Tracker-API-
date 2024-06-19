@@ -1,15 +1,11 @@
-from extensions import db
-from sqlalchemy.orm import validates    
+from sqlalchemy import Column, Integer, String, ForeignKey
+from ..extensions import db
 
 class Battle(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    opponent = db.Column(db.String(80), nullable=False)
-    result = db.Column(db.String(30), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    
-    @validates('opponent', 'result')
-    def validate_opponent(self, key, value):
-        if not value:
-            raise ValueError(f"{key} must not be empty")
-        return value
+    __tablename__ = 'battles'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String(80), nullable=False)
+    result = Column(String(20), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    collection_id = Column(Integer, ForeignKey('collections.id'), nullable=False)
