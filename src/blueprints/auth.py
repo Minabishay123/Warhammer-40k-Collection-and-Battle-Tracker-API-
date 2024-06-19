@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token
-from marshmallow import ValidationError
+from marshmallow import ValidationError, fields, post_load
 from ..models.user import User
 from ..extensions import db, bcrypt, ma
 
@@ -11,15 +11,25 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         model = User
         load_instance = True
         include_fk = True
+        exclude = ("password_hash",)
+
+    password = fields.Str(load_only=True)
+
+    @post_load
+    def hash_password(self, data, **kwargs):
+        password = data.pop('password', None)
+        if password:
+            data['password_hash'] = bcrypt.generate_password_hash(password).decode('utf-8')
+        return data
 
 user_schema = UserSchema()
+users_schema = UserSchema(many=True)
 
 @auth_bp.route('/register', methods=['POST'])
 def register():
     try:
         user_data = request.json
         user = user_schema.load(user_data)
-        user.set_password(user_data['password'])
         db.session.add(user)
         db.session.commit()
         return user_schema.jsonify(user), 201
@@ -34,3 +44,4 @@ def login():
         access_token = create_access_token(identity=user.id)
         return jsonify(access_token=access_token)
     return jsonify({'msg': 'Invalid credentials'}), 401
+
