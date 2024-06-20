@@ -1,6 +1,8 @@
-from init import create_app
-from cli_commands import db_commands
+from init import app, db
+import cli  # Import CLI commands to register them with the Flask app
 
-app = create_app()
+# Import CLI commands
+app.cli.add_command(cli.db_commands)
 
-app.cli.add_command(db_commands)
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,23 +1,15 @@
-from init import db, ma
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Date, ForeignKey
-from models.user import User
-from models.collection import Collection
+from sqlalchemy import String, ForeignKey
+from datetime import date
+from init import db
 
 class Battle(db.Model):
     __tablename__ = "battles"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    date: Mapped[Date] = mapped_column()
-    opponent: Mapped[str] = mapped_column(String(100))
-    outcome: Mapped[str] = mapped_column(String(100))
-    collection_id: Mapped[int] = mapped_column(ForeignKey('collections.id'))
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    id: Mapped[int] = mapped_column(primary_key=True)  # Primary key for the battles table
+    date: Mapped[date] = mapped_column()  # Date of the battle
+    location: Mapped[str] = mapped_column(String(200))  # Location of the battle
+    outcome: Mapped[str] = mapped_column(String(100))  # Outcome of the battle
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))  # Foreign key linking to users table
 
-    collection = relationship('Collection', back_populates='battles')
-    user = relationship('User', back_populates='battles')
-
-class BattleSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = Battle
-        load_instance = True
+    user: Mapped["User"] = relationship("User", back_populates="battles")  # Relationship to User
