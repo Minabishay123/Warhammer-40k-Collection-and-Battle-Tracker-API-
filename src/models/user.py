@@ -1,18 +1,25 @@
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
-from ..extensions import db, bcrypt
+from init import db, ma
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, Boolean
+from marshmallow import fields
+from marshmallow.validate import Length
 
 class User(db.Model):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True)
-    username = Column(String(80), unique=True, nullable=False)
-    password_hash = Column(String(128), nullable=False)
-    collections = relationship('Collection', backref='user', lazy=True)
-    battles = relationship('Battle', backref='user', lazy=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column(String(200), unique=True)
+    name: Mapped[str] = mapped_column(String(100))
+    password: Mapped[str] = mapped_column(String(200))
+    is_admin: Mapped[bool] = mapped_column(Boolean(), default=False)
 
-    def set_password(self, password):
-        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+    collections = relationship('Collection', back_populates='user')
+    battles = relationship('Battle', back_populates='user')
 
-    def check_password(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
+class UserSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = User
+        load_instance = True
+
+    email = fields.Email(required=True)
+    password = fields.String(validate=Length(min=8), required=True)
