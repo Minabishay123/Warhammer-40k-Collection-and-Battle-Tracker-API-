@@ -147,12 +147,14 @@ The ORM system helps in bridging the gap between the object-oriented programming
 
 ---
 
-# R6: Entity Relationship Diagram (ERD)
+## R6: Entity Relationship Diagram (ERD)
 
 ## ERD Diagram
+
 Below is the Entity Relationship Diagram (ERD) for the Warhammer 40k Collection and Battle Tracker API. The diagram depicts the structure of the database, showing how the tables are related to each other.
 
 ## Explanation
+
 The ERD consists of three main tables: User, Collection, and Battle. Here’s how the relations between these models aid the database design:
 
 ### 1. User
@@ -182,3 +184,37 @@ The ERD consists of three main tables: User, Collection, and Battle. Here’s ho
 - **Data Normalisation**: The design follows normalisation principles, ensuring that redundant data is minimised. Each table stores distinct entities with clear boundaries, reducing duplication and easing maintenance.
 - **Clear Model Boundaries**: The separation of User, Collection, and Battle into distinct tables clarifies their roles and responsibilities. This separation aids in developing, debugging, and extending the application, as each model handles a specific aspect of the data.
 
+---
+
+## R7: Implemented Models and Their Relationships
+
+### Models
+
+1. **User**
+   - **Fields**: `id`, `email`, `name`, `password`, `is_admin`
+   - **Relationships**: `collections`, `battles`
+
+2. **Collection**
+   - **Fields**: `id`, `name`, `count`, `user_id`
+   - **Relationships**: `user`
+
+3. **Battle**
+   - **Fields**: `id`, `opponent`, `description`, `date`, `result`, `user_id`
+   - **Relationships**: `user`
+
+### Relationships
+
+- **User to Collection**:
+  - Each `Collection` belongs to a `User`. This relationship is represented by the `user_id` foreign key in the `Collection` table, linking it to the `id` in the `User` table. This allows the app to keep track of which user owns which collections.
+  
+- **User to Battle**:
+  - Each `Battle` is recorded by a `User`. This relationship is represented by the `user_id` foreign key in the `Battle` table, linking it to the `id` in the `User` table. This allows the app to associate each battle record with the user who created it.
+
+### How Relationships Aid Implementation
+
+1. **Data Integrity**: Foreign keys ensure that collections and battles are always linked to valid users, preventing orphaned records.
+2. **Efficient Data Retrieval**: Relationships facilitate efficient querying and data retrieval. For example, fetching all battles or collections for a specific user is straightforward.
+3. **Scalability**: As the number of users, collections, and battles grows, the relational database structure supports scalability without requiring significant changes to the schema.
+4. **Maintainability**: Clear relationships between models make the codebase easier to understand and maintain. Each model is responsible for a specific aspect of the data, leading to a more modular and maintainable codebase.
+
+---
