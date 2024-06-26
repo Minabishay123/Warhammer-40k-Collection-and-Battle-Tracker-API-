@@ -218,3 +218,343 @@ The ERD consists of three main tables: User, Collection, and Battle. Here’s ho
 4. **Maintainability**: Clear relationships between models make the codebase easier to understand and maintain. Each model is responsible for a specific aspect of the data, leading to a more modular and maintainable codebase.
 
 ---
+
+## R8: API Endpoints Usage
+
+### Register a User
+
+- HTTP Verb: \`POST\`
+
+- Path: \`/register\`
+
+- Body:
+
+---
+
+## json
+
+{
+
+\"email\": \"user@example.com\",
+
+\"name\": \"User Name\",
+
+\"password\": \"securepassword\"
+
+}
+
+## Response:
+
+Success: 201 Created
+
+Failure: 400 Bad Request
+
+---
+
+## Login a User
+
+- HTTP Verb: POST
+
+- Path: /login
+
+---
+
+Body:
+
+json
+
+Copy code
+
+{
+
+\"email\": \"user@example.com\",
+
+\"password\": \"securepassword\"
+
+}
+
+Response:
+
+Success: 200 OK
+
+Failure: 401 Unauthorized
+
+Get All Users
+
+HTTP Verb: GET
+
+Path: /users
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Response:
+
+Success: 200 OK
+
+Failure: 403 Forbidden
+
+Get Specific User
+
+HTTP Verb: GET
+
+Path: /users/\<int:id\>
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Response:
+
+Success: 200 OK
+
+Failure: 404 Not Found
+
+Update Specific User
+
+HTTP Verb: PUT
+
+Path: /users/\<int:id\>
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Body:
+
+json
+
+Copy code
+
+{
+
+\"email\": \"user@example.com\",
+
+\"name\": \"Updated Name\",
+
+\"password\": \"newpassword\"
+
+}
+
+Response:
+
+Success: 200 OK
+
+Failure: 404 Not Found, 400 Bad Request
+
+Delete Specific User
+
+HTTP Verb: DELETE
+
+Path: /users/\<int:id\>
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Response:
+
+Success: 200 OK
+
+Failure: 404 Not Found
+
+Create Collection
+
+HTTP Verb: POST
+
+Path: /collections
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Body:
+
+json
+
+Copy code
+
+{
+
+\"name\": \"Space Marines\",
+
+\"count\": 50,
+
+\"user_id\": 1
+
+}
+
+Response:
+
+Success: 201 Created
+
+Failure: 400 Bad Request
+
+Get All Collections
+
+HTTP Verb: GET
+
+Path: /collections
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Response:
+
+Success: 200 OK
+
+Failure: 403 Forbidden
+
+Get Specific Collection
+
+HTTP Verb: GET
+
+Path: /collections/\<int:id\>
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Response:
+
+Success: 200 OK
+
+Failure: 404 Not Found
+
+Update Specific Collection
+
+HTTP Verb: PUT
+
+Path: /collections/\<int:id\>
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Body:
+
+json
+
+Copy code
+
+{
+
+\"name\": \"Updated Name\",
+
+\"count\": 75
+
+}
+
+Response:
+
+Success: 200 OK
+
+Failure: 404 Not Found, 400 Bad Request
+
+Delete Specific Collection
+
+HTTP Verb: DELETE
+
+Path: /collections/\<int:id\>
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Response:
+
+Success: 200 OK
+
+Failure: 404 Not Found
+
+Create Battle
+
+HTTP Verb: POST
+
+Path: /battles
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Body:
+
+json
+
+Copy code
+
+{
+
+\"opponent\": \"Orks\",
+
+\"description\": \"Epic battle against the Orks\",
+
+\"date\": \"2024-06-21\",
+
+\"result\": \"Victory\",
+
+\"user_id\": 1
+
+}
+
+Response:
+
+Success: 201 Created
+
+Failure: 400 Bad Request
+
+Get All Battles
+
+HTTP Verb: GET
+
+Path: /battles
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Response:
+
+Success: 200 OK
+
+Failure: 403 Forbidden
+
+Get Specific Battle
+
+HTTP Verb: GET
+
+Path: /battles/\<int:id\>
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Response:
+
+Success: 200 OK
+
+Failure: 404 Not Found
+
+Update Specific Battle
+
+HTTP Verb: PUT
+
+Path: /battles/\<int:id\>
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Body:
+
+json
+
+Copy code
+
+{
+
+\"opponent\": \"Updated Opponent\",
+
+\"description\": \"Updated description\",
+
+\"date\": \"2024-06-22\",
+
+\"result\": \"Defeat\"
+
+}
+
+Response:
+
+Success: 200 OK
+
+Failure: 404 Not Found, 400 Bad Request
+
+Delete Specific Battle
+
+HTTP Verb: DELETE
+
+Path: /battles/\<int:id\>
+
+Headers: Authorization: Bearer \<jwt_token\>
+
+Response:
+
+Success: 200 OK
+
+Failure: 404 Not Found
