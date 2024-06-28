@@ -221,340 +221,212 @@ The ERD consists of three main tables: User, Collection, and Battle. Here’s ho
 
 ## R8: API Endpoints Usage
 
-### Register a User
+- **Register a User**
+  - **HTTP Verb**: \`POST\`
+  - **Path**: \`/register\`
+  - **Body**:
 
-- HTTP Verb: \`POST\`
+```json
 
-- Path: \`/register\`
+{
+"email": "user@example.com",
+"name": "User Name",
+"password": "securepassword"
+}
+```
 
-- Body:
+- **Response**
+  - **Success**: 201 Created
+  - **Failure**: 400 Bad Request
 
 ---
 
-## json
+- **Login a User**
+  - **HTTP Verb**: POST
+  - **Path**: /login
+  - **Body**:
 
+```json
 {
-
-\"email\": \"user@example.com\",
-
-\"name\": \"User Name\",
-
-\"password\": \"securepassword\"
-
+"email": "user@example.com",
+"password": "securepassword"
 }
+```
 
-## Response:
-
-Success: 201 Created
-
-Failure: 400 Bad Request
+- **Response**:
+  - **Success**: 200 OK
+  - **Failure**: 401 Unauthorized
 
 ---
 
-## Login a User
-
-- HTTP Verb: POST
-
-- Path: /login
+- **Get All Users**
+  - **HTTP Verb**: GET
+  - **Path**: /users
+  - **Headers**: Authorization: Bearer \<jwt_token\>
+  - **Response**:
+    - **Success**: 200 OK
+    - **Failure**: 403 Forbidden
 
 ---
 
-Body:
+- **Get Specific User**
+  - **HTTP Verb**: GET
+  - **Path**: /users/\<int:id\>
+  - **Headers**: Authorization: Bearer \<jwt_token\>
+  - **Response**:
+    - **Success**: 200 OK
+    - **Failure**: 404 Not Found
 
-json
+---
 
-Copy code
+- **Update Specific User**
+  - **HTTP Verb**: PUT
+  - **Path**: /users/\<int:id\>
+  - **Headers**: Authorization: Bearer \<jwt_token\>
+  - **Body**:
 
+```json
 {
-
-\"email\": \"user@example.com\",
-
-\"password\": \"securepassword\"
-
+"email": "user@example.com",
+"name": "Updated Name",
+"password": "newpassword"
 }
+```
 
-Response:
+- **Response**:
+  - **Success**: 200 OK
+  - **Failure**: 404 Not Found, 400 Bad Request
 
-Success: 200 OK
+---
 
-Failure: 401 Unauthorized
+- **Delete Specific User**
+  - **HTTP Verb:** DELETE
+  - **Path:** /users/\<int:id\>
+  - **Headers:** Authorization: Bearer \<jwt_token\>
+  - **Response:**
+    - **Success:** 200 OK
+    - **Failure:** 404 Not Found
 
-Get All Users
+- **Create Collection**
+  - **HTTP Verb:** POST
+  - **Path:** /collections
+  - **Headers:** Authorization: Bearer \<jwt_token\>
+  - **Body:**
+    - **json**
 
-HTTP Verb: GET
+    ```json
+    {
+      "name": "Space Marines",
+      "count": 50,
+      "user_id": 1
+    }
+    ```
 
-Path: /users
+  - **Response:**
+    - **Success:** 201 Created
+    - **Failure:** 400 Bad Request
 
-Headers: Authorization: Bearer \<jwt_token\>
+- **Get All Collections**
+  - **HTTP Verb:** GET
+  - **Path:** /collections
+  - **Headers:** Authorization: Bearer \<jwt_token\>
+  - **Response:**
+    - **Success:** 200 OK
+    - **Failure:** 403 Forbidden
 
-Response:
+- **Get Specific Collection**
+  - **HTTP Verb:** GET
+  - **Path:** /collections/\<int:id\>
+  - **Headers:** Authorization: Bearer \<jwt_token\>
+  - **Response:**
+    - **Success:** 200 OK
+    - **Failure:** 404 Not Found
 
-Success: 200 OK
+- **Update Specific Collection**
+  - **HTTP Verb:** PUT
+  - **Path:** /collections/\<int:id\>
+  - **Headers:** Authorization: Bearer \<jwt_token\>
+  - **Body:**
+    - **json**
 
-Failure: 403 Forbidden
+    ```json
+    {
+      "name": "Updated Name",
+      "count": 75
+    }
+    ```
 
-Get Specific User
+  - **Response:**
+    - **Success:** 200 OK
+    - **Failure:** 404 Not Found, 400 Bad Request
 
-HTTP Verb: GET
+- **Delete Specific Collection**
+  - **HTTP Verb:** DELETE
+  - **Path:** /collections/\<int:id\>
+  - **Headers:** Authorization: Bearer \<jwt_token\>
+  - **Response:**
+    - **Success:** 200 OK
+    - **Failure:** 404 Not Found
 
-Path: /users/\<int:id\>
+- **Create Battle**
+  - **HTTP Verb:** POST
+  - **Path:** /battles
+  - **Headers:** Authorization: Bearer \<jwt_token\>
+  - **Body:**
+    - **json**
 
-Headers: Authorization: Bearer \<jwt_token\>
+    ```json
+    {
+      "opponent": "Orks",
+      "description": "Epic battle against the Orks",
+      "date": "2024-06-21",
+      "result": "Victory",
+      "user_id": 1
+    }
+    ```
 
-Response:
+  - **Response:**
+    - **Success:** 201 Created
+    - **Failure:** 400 Bad Request
 
-Success: 200 OK
+- **Get All Battles**
+  - **HTTP Verb:** GET
+  - **Path:** /battles
+  - **Headers:** Authorization: Bearer \<jwt_token\>
+  - **Response:**
+    - **Success:** 200 OK
+    - **Failure:** 403 Forbidden
 
-Failure: 404 Not Found
+- **Get Specific Battle**
+  - **HTTP Verb:** GET
+  - **Path:** /battles/\<int:id\>
+  - **Headers:** Authorization: Bearer \<jwt_token\>
+  - **Response:**
+    - **Success:** 200 OK
 
-Update Specific User
+- **Update Specific Battle**
+  - **HTTP Verb**: PUT
+  - **Path**: /battles/<int:id>
+  - **Headers**: Authorization: Bearer <jwt_token>
+  - **Body**:
 
-HTTP Verb: PUT
-
-Path: /users/\<int:id\>
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Body:
-
-json
-
-Copy code
-
+```json
 {
-
-\"email\": \"user@example.com\",
-
-\"name\": \"Updated Name\",
-
-\"password\": \"newpassword\"
-
+  "opponent": "Updated Opponent",
+  "description": "Updated description",
+  "date": "2024-06-22",
+  "result": "Defeat"
 }
-
-Response:
-
-Success: 200 OK
-
-Failure: 404 Not Found, 400 Bad Request
-
-Delete Specific User
-
-HTTP Verb: DELETE
-
-Path: /users/\<int:id\>
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Response:
-
-Success: 200 OK
-
-Failure: 404 Not Found
-
-Create Collection
-
-HTTP Verb: POST
-
-Path: /collections
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Body:
-
-json
-
-Copy code
-
-{
-
-\"name\": \"Space Marines\",
-
-\"count\": 50,
-
-\"user_id\": 1
-
-}
-
-Response:
-
-Success: 201 Created
-
-Failure: 400 Bad Request
-
-Get All Collections
-
-HTTP Verb: GET
-
-Path: /collections
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Response:
-
-Success: 200 OK
-
-Failure: 403 Forbidden
-
-Get Specific Collection
-
-HTTP Verb: GET
-
-Path: /collections/\<int:id\>
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Response:
-
-Success: 200 OK
-
-Failure: 404 Not Found
-
-Update Specific Collection
-
-HTTP Verb: PUT
-
-Path: /collections/\<int:id\>
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Body:
-
-json
-
-Copy code
-
-{
-
-\"name\": \"Updated Name\",
-
-\"count\": 75
-
-}
-
-Response:
-
-Success: 200 OK
-
-Failure: 404 Not Found, 400 Bad Request
-
-Delete Specific Collection
-
-HTTP Verb: DELETE
-
-Path: /collections/\<int:id\>
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Response:
-
-Success: 200 OK
-
-Failure: 404 Not Found
-
-Create Battle
-
-HTTP Verb: POST
-
-Path: /battles
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Body:
-
-json
-
-Copy code
-
-{
-
-\"opponent\": \"Orks\",
-
-\"description\": \"Epic battle against the Orks\",
-
-\"date\": \"2024-06-21\",
-
-\"result\": \"Victory\",
-
-\"user_id\": 1
-
-}
-
-Response:
-
-Success: 201 Created
-
-Failure: 400 Bad Request
-
-Get All Battles
-
-HTTP Verb: GET
-
-Path: /battles
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Response:
-
-Success: 200 OK
-
-Failure: 403 Forbidden
-
-Get Specific Battle
-
-HTTP Verb: GET
-
-Path: /battles/\<int:id\>
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Response:
-
-Success: 200 OK
-
-Failure: 404 Not Found
-
-Update Specific Battle
-
-HTTP Verb: PUT
-
-Path: /battles/\<int:id\>
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Body:
-
-json
-
-Copy code
-
-{
-
-\"opponent\": \"Updated Opponent\",
-
-\"description\": \"Updated description\",
-
-\"date\": \"2024-06-22\",
-
-\"result\": \"Defeat\"
-
-}
-
-Response:
-
-Success: 200 OK
-
-Failure: 404 Not Found, 400 Bad Request
-
-Delete Specific Battle
-
-HTTP Verb: DELETE
-
-Path: /battles/\<int:id\>
-
-Headers: Authorization: Bearer \<jwt_token\>
-
-Response:
-
-Success: 200 OK
-
-Failure: 404 Not Found
+```
+
+- **Response**:
+  - **Success**: 200 OK
+  - **Failure**: 404 Not Found, 400 Bad Request
+
+- **Delete Specific Battle**
+  - **HTTP Verb**: DELETE
+  - **Path**: /battles/<int:id>
+  - **Headers**: Authorization: Bearer <jwt_token>
+  - **Response**:
+    - **Success**: 200 OK
+    - **Failure**: 404 Not Found
