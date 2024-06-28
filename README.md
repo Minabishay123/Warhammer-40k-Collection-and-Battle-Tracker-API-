@@ -153,26 +153,28 @@ The ORM system helps in bridging the gap between the object-oriented programming
 
 Below is the Entity Relationship Diagram (ERD) for the Warhammer 40k Collection and Battle Tracker API. The diagram depicts the structure of the database, showing how the tables are related to each other.
 
+![erd](docs/erd.png)
+
 ## Explanation
 
 The ERD consists of three main tables: User, Collection, and Battle. Here’s how the relations between these models aid the database design:
 
 ### 1. User
 
-- **Fields**: id, email, name, password, is_admin
+- **Fields**: id (Primary Key), email, name, password, is_admin
 - **Relationships**:
   - One-to-many with Collection
   - One-to-many with Battle
 
 ### 2. Collection
 
-- **Fields**: id, name, count, user_id
+- **Fields**: id (Primary Key), name, count, user_id (Foerign Key)
 - **Relationships**:
   - Many-to-one with User
 
 ### 3. Battle
 
-- **Fields**: id, opponent, description, date, result, user_id
+- **Fields**: id (Primary Key), opponent, description, date, result, user_id (foreign key)
 - **Relationships**:
   - Many-to-one with User
 
